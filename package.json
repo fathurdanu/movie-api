@@ -1,0 +1,32 @@
+{
+  "name": "movie-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fathurdanu/movies-api.git"
+  },
+  "author": "Fathur Danu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fathurdanu/movies-api/issues"
+  },
+  "homepage": "https://github.com/fathurdanu/movies-api#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.1",
+    "firebase-admin": "^11.0.1",
+    "swagger-ui-express": "^4.5.0"
+  },
+  "devDependencies": {
+    "jest": "^29.1.2",
+    "nodemon": "^2.0.20",
+    "supertest": "^6.3.0"
+  }
+}

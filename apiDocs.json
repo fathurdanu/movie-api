@@ -1,0 +1,523 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "API - Movie Overview",
+        "description": "This is a Movie REST API that provide movie data like title, rating, overview, director, actor, ect. This API is a personal API project for my portfolio. Use this API Key `AAA-III-UUU-EEE-OOO` to access it. You can see the source code [here](https://github.com/fathurdanu/movies-api).",
+        "version": "1.0.0",
+        "contact": {
+            "email": "fathurdanu@gmail.com",
+            "url": "https://fathurdanu-d0f15.web.app/"
+        }
+    },
+    "servers": [
+        {
+            "url": "https://www.movie-api.xyz/",
+            "description": "server"
+        },
+        {
+            "url": "http://localhost:3000",
+            "description": "localhost"
+        }
+    ],
+    "tags": [
+        {
+            "name": "movies",
+            "description": "Everything about Movie"
+        }
+    ],
+    "paths": {
+        "/movies": {
+            "post": {
+                "tags": [
+                    "movies"
+                ],
+                "summary": "Add a new movie",
+                "description": "Add a new movie",
+                "operationId": "addmovie",
+                "requestBody": {
+                    "description": "Create a new movie",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/movie"
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/movie"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/movie"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Incomplete request body.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type":"object",
+                                    "properties": {
+                                        "message":{
+                                            "type":"string",
+                                            "default":"Required [attribute] attribute"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:movies"
+                        ]
+                    }
+                ]
+            },
+            "get": {
+                "tags": [
+                    "movies"
+                ],
+                "summary": "Get some movies",
+                "description": "Get some movies order by title. This endpoint support pagination.",
+                "operationId": "getmovies",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit the number of data in one request",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 3
+                        }
+                    },
+                    {
+                        "name": "after",
+                        "in": "query",
+                        "description": "Response will be ordered by movie title. By using the `after` parameter, you will get some movies below the movie that you input in the `before` parameter. Just select one parameter between `after` or `before`. Use this `21%20Grams` as an example. If you don't use the `after` and `before` parameters, you will get the top data.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "before",
+                        "in": "query",
+                        "description": "Response will be ordered by movie title. By using the `before` parameter, you will get some movies above the movie that you input in the `before` parameter. Just select one parameter between `after` or `before`. Use this `21%20Grams` as an example.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/movies"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid status value"
+                    }
+                }
+            }
+        },
+        "/movies/{movieId}": {
+            "get": {
+                "tags": [
+                    "movies"
+                ],
+                "summary": "Find movie by ID",
+                "description": "Returns a single movie",
+                "operationId": "getMovieById",
+                "parameters": [
+                    {
+                        "name": "movieId",
+                        "in": "path",
+                        "description": "Need ID of movies to get data.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/movie"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type":"object",
+                                    "properties": {
+                                        "message":{
+                                            "type":"string",
+                                            "default":"Id not found"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "movies"
+                ],
+                "summary": "Updates a movie",
+                "description": "",
+                "operationId": "updatemovie",
+                "parameters": [
+                    {
+                        "name": "movieId",
+                        "in": "path",
+                        "description": "Needs movie ID to update the data",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Update a movie",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/movie"
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/movie"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type":"object",
+                                    "properties": {
+                                        "message":{
+                                            "type":"string",
+                                            "default":"Required [attribute] attribute"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type":"object",
+                                    "properties": {
+                                        "message":{
+                                            "type":"string",
+                                            "default":"Id not found"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:movies"
+                        ]
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "movies"
+                ],
+                "summary": "Delete a movie",
+                "description": "delete a movie",
+                "operationId": "deletemovie",
+                "parameters": [
+                    {
+                        "name": "movieId",
+                        "in": "path",
+                        "description": "Movie id to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type":"object",
+                                    "properties": {
+                                        "message":{
+                                            "type":"string",
+                                            "default":"Record deleted successfully"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type":"object",
+                                    "properties": {
+                                        "message":{
+                                            "type":"string",
+                                            "default":"Id not found"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:movies"
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "movie": {
+                "required": [
+                    "certificate",
+                    "director",
+                    "genre",
+                    "gross",
+                    "imdbRating",
+                    "metaScore",
+                    "noOfVotes",
+                    "overview",
+                    "posterLink",
+                    "releasedYear",
+                    "runtime",
+                    "seriesTitle",
+                    "star1",
+                    "star2",
+                    "star3",
+                    "star4"
+                ],
+                "type": "object",
+                "properties": {
+                    "certificate": {
+                        "type": "string",
+                        "example": "A"
+                    },
+                    "director": {
+                        "type": "string",
+                        "example": "Supriadi"
+                    },
+                    "genre": {
+                        "type": "string",
+                        "example": "comedy"
+                    },
+                    "gross": {
+                        "type": "string",
+                        "example": "123,456,789"
+                    },
+                    "imdbRating": {
+                        "type": "number",
+                        "example": "7.7"
+                    },
+                    "metaScore": {
+                        "type": "number",
+                        "example": "99"
+                    },
+                    "noOfVotes": {
+                        "type": "number",
+                        "example": "75981"
+                    },
+                    "overview": {
+                        "type": "string",
+                        "example": "Cool"
+                    },
+                    "posterLink": {
+                        "type": "string",
+                        "example": "https://m.media-amazon.com/images/M/MV5BMjExMTEzODkyN15BMl5BanBnXkFtZTcwNTU4NTc4OQ@@._V1_UX67_CR0,0,67,98_AL_.jpg"
+                    },
+                    "runtime": {
+                        "type": "string",
+                        "example": "120 min"
+                    },
+                    "releasedYear": {
+                        "type": "number",
+                        "example": "2005"
+                    },
+                    "seriesTitle": {
+                        "type": "string",
+                        "example": "Hello world!"
+                    },
+                    "star1": {
+                        "type": "string",
+                        "example": "Adib"
+                    },
+                    "star2": {
+                        "type": "string",
+                        "example": "Budi"
+                    },
+                    "star3": {
+                        "type": "string",
+                        "example": "Parto"
+                    },
+                    "star4": {
+                        "type": "string",
+                        "example": "Bambang"
+                    }
+                }
+            },
+            "movies": {
+                "type": "object",
+                "properties": {
+                    "records": {
+                        "type":"array",
+                        "items":{
+                            "properties": {
+                                "id":{
+                                    "type": "string",
+                                    "example": "COxuUDfPedTQ2SJLvrz4"
+                                },
+                                "certificate": {
+                                    "type": "string",
+                                    "example": "A"
+                                },
+                                "director": {
+                                    "type": "string",
+                                    "example": "Supriadi"
+                                },
+                                "genre": {
+                                    "type": "string",
+                                    "example": "comedy"
+                                },
+                                "gross": {
+                                    "type": "string",
+                                    "example": "123,456,789"
+                                },
+                                "imdbRating": {
+                                    "type": "number",
+                                    "example": "7.7"
+                                },
+                                "metaScore": {
+                                    "type": "number",
+                                    "example": "99"
+                                },
+                                "noOfVotes": {
+                                    "type": "number",
+                                    "example": "75981"
+                                },
+                                "overview": {
+                                    "type": "string",
+                                    "example": "Cool"
+                                },
+                                "posterLink": {
+                                    "type": "string",
+                                    "example": "https://m.media-amazon.com/images/M/MV5BMjExMTEzODkyN15BMl5BanBnXkFtZTcwNTU4NTc4OQ@@._V1_UX67_CR0,0,67,98_AL_.jpg"
+                                },
+                                "runtime": {
+                                    "type": "string",
+                                    "example": "120 min"
+                                },
+                                "releasedYear": {
+                                    "type": "number",
+                                    "example": "2005"
+                                },
+                                "seriesTitle": {
+                                    "type": "string",
+                                    "example": "Hello world!"
+                                },
+                                "star1": {
+                                    "type": "string",
+                                    "example": "Adib"
+                                },
+                                "star2": {
+                                    "type": "string",
+                                    "example": "Budi"
+                                },
+                                "star3": {
+                                    "type": "string",
+                                    "example": "Parto"
+                                },
+                                "star4": {
+                                    "type": "string",
+                                    "example": "Bambang"
+                                }
+                            }
+                        }
+                    },
+                    "pagination": {}
+                }
+            }
+        },
+        "requestBodies": {
+            "movies": {
+                "description": "movies object that needs to be added to the store",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/movie"
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "api_key": {
+                "type": "apiKey",
+                "name": "API-KEY",
+                "in": "header"
+            }
+        }
+    }
+}
