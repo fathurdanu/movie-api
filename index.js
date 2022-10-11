@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/',(req,res)=>{
     res.status(200).json({
         message: "Welcome to Movie API",
-        api_docs_url:"https://www.movie-api.xyz/api-docs/"
+        api_docs_url:"https://movie-api.xyz/api-docs/"
     })
 })
 

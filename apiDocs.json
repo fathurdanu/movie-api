@@ -1,8 +1,8 @@
 {
     "openapi": "3.0.3",
     "info": {
-        "title": "API - Movie Overview",
-        "description": "This is a Movie REST API that provide movie data like title, rating, overview, director, actor, ect. This API is a personal API project for my portfolio. Use this API Key `AAA-III-UUU-EEE-OOO` to access it. You can see the source code [here](https://github.com/fathurdanu/movies-api).",
+        "title": "Movie - API",
+        "description": "This is a Movie REST API that provide movie data like title, rating, overview, director, actor, etc. This API is a personal API project for my portfolio. Use this API Key `AAA-III-UUU-EEE-OOO` to access it. You can see the source code [here](https://github.com/fathurdanu/movie-api).",
         "version": "1.0.0",
         "contact": {
             "email": "fathurdanu@gmail.com",
@@ -11,7 +11,7 @@
     },
     "servers": [
         {
-            "url": "https://www.movie-api.xyz/",
+            "url": "https://movie-api.xyz/",
             "description": "server"
         },
         {
